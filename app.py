@@ -12,8 +12,7 @@ load_dotenv()
 # Spotify API credentials
 client_id = os.getenv('SPOTIFY_CLIENT_ID')
 client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
-redirect_uri = os.getenv('STREAMLIT_APP_URL')+ "/auth"
-
+redirect_uri = os.getenv('STREAMLIT_APP_URL') + "/auth"
 scope = 'user-top-read playlist-modify-public'
 
 # ChatGPT API key
