@@ -92,5 +92,5 @@ else:
     if auth_button:
         # Redirect the user to the Spotify authorization URL
         auth_url = auth_manager.get_authorize_url()
-        st.write(f'<script>window.location.href = "{auth_url}";</script>', unsafe_allow_html=True)
+        st.markdown(f'<a href="{auth_url}" target="_blank">Click here to authenticate with Spotify</a>', unsafe_allow_html=True)
 
