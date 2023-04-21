@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 import openai
 import streamlit as st
+import time
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -40,4 +41,15 @@ songs = [user_input1, user_input2, user_input3, user_input4, user_input5]
 
 if user_input1 and user_input2 and user_input3 and user_input4 and user_input5:
     response_text = get_response(f'Name 10 more obscure artists and a recommended song of theirs if I enjoy listening to: {songs} ')
+    # Add a placeholder
+    latest_iteration = st.empty()
+    bar = st.progress(0)
+
+    for i in range(100):
+        # Update the progress bar with each iteration.
+        latest_iteration.text(f'Iteration {i+1}')
+        bar.progress(i + 1)
+        time.sleep(0.1)
+
     st.write(response_text)
+
