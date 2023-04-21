@@ -1,5 +1,6 @@
 # Import required libraries
 import os
+import time
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import streamlit as st
@@ -59,6 +60,11 @@ if auth_manager.get_cached_token():
 
     # Get recommendations from ChatGPT
     recommended_songs = request_gpt(prompt)
+    st.write("Fetching recommendations...")
+    bar = st.progress(0)
+    for i in range(100):
+        bar.progress(i + 1)
+        time.sleep(0.01)
 
     # Get title from ChatGPT
     title = request_gpt(f'Give me a playlist title for {recommended_songs}')
@@ -79,5 +85,8 @@ if auth_manager.get_cached_token():
     st.write(f"Successfully created a new playlist named '{playlist_name}' based on your favorite artists and songs!")
 else:
     # Redirect the user to the Spotify authorization URL
-    auth_url = auth_manager.get_authorize_url()
-    st.markdown(f"[Click here to authenticate with Spotify.]({auth_url})")
+    auth_button = st.button("Authenticate with Spotify")
+    if auth_button:
+        # Redirect the user to the Spotify authorization URL
+        auth_url = auth_manager.get_authorize_url()
+        st.write(f'<a href="{auth_url}" target="_blank">Click here to authenticate with Spotify</a>', unsafe_allow_html=True)
