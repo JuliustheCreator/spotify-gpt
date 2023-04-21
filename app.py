@@ -12,7 +12,8 @@ load_dotenv()
 # Spotify API credentials
 client_id = os.getenv('SPOTIFY_CLIENT_ID')
 client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
-redirect_uri = os.getenv('STREAMLIT_APP_URL')
+redirect_uri = os.getenv('STREAMLIT_APP_URL')+ "/auth"
+
 scope = 'user-top-read playlist-modify-public'
 
 # ChatGPT API key
@@ -94,3 +95,12 @@ else:
         auth_url = auth_manager.get_authorize_url()
         st.markdown(f'<a href="{auth_url}" target="_blank">Click here to authenticate with Spotify</a>', unsafe_allow_html=True)
 
+# Handle authentication callback
+path = st.experimental_get_query_params().get("path")
+if path == ["auth"]:
+    code = st.experimental_get_query_params().get("code")
+    if code:
+        token_info = auth_manager.get_access_token(code[0], check_cache=False)
+        auth_manager._save_token_info(token_info)
+        st.experimental_set_query_params(path="", code="")
+        st.experimental_rerun()
