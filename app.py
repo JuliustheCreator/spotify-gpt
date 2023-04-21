@@ -1,6 +1,5 @@
 # Import required libraries
 import os
-import time
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import streamlit as st
@@ -13,7 +12,7 @@ load_dotenv()
 # Spotify API credentials
 client_id = os.getenv('SPOTIFY_CLIENT_ID')
 client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
-redirect_uri = os.getenv('STREAMLIT_APP_URL') + '/callback'
+redirect_uri = os.getenv('STREAMLIT_APP_URL') 
 scope = 'user-top-read playlist-modify-public'
 
 # ChatGPT API key
