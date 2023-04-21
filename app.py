@@ -24,31 +24,32 @@ def get_response(prompt):
     return response.choices[0].text.strip()
 
 # Frontend
-st.title("Music Recommendation App")
-st.write("Music Recommendation System Built on Generative Pre-trained Transformer (Chat GPT) by Julius")
+st.title("Spotify Music Recommendation")
+st.subheader("Music recommendation system built with Generative Pre-trained Transformer")
 
-st.write("Name 5 of your favorite songs (of the same genre for best results)")
+st.write("Name as many of your favorite songs as you'd like! (of the same genre for best results)")
 
 # Backend
 
-user_input1 = st.text_input("1: ")
-user_input2 = st.text_input("2: ")
-user_input3 = st.text_input("3: ")
-user_input4 = st.text_input("4: ")
-user_input5 = st.text_input("5: ")
+button = st.button('Finish')
+songs = []
+TEXT = f'Name 10 obscure artists I am sure to enjoy, as well as a recommended song of theirs if I enjoy listening to: {songs}'
 
-songs = [user_input1, user_input2, user_input3, user_input4, user_input5]
+# Adding User's Songs to List
+while not button and len(songs):
+    user_input = st.text_input("Input Song and Artist: ")
+    songs.append(user_input)
 
-if user_input1 and user_input2 and user_input3 and user_input4 and user_input5:
-    response_text = get_response(f'Name 10 more obscure artists and a recommended song of theirs if I enjoy listening to: {songs} ')
-    # Add a placeholder
-    latest_iteration = st.empty()
-    bar = st.progress(0)
+# Fetching Response
+response_text = get_response(TEXT)
 
-    for i in range(100):
-        # Update the progress bar with each iteration.
-        bar.progress(i + 1)
-        time.sleep(0.1)
+# Progress Bar
+latest_iteration = st.empty()
+bar = st.progress(0)
+for i in range(100):
+    bar.progress(i + 1)
+    time.sleep(0.1)
 
-    st.write(response_text)
+# Print Response
+st.write(response_text)
 
