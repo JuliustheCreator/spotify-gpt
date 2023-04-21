@@ -28,10 +28,6 @@ st.title("Spotify Music Recommendation")
 st.write("Music recommendation system built with Generative Pre-trained Transformer")
 
 # Backend
-def get_response(text):
-    # Replace this function with your GPT-3 implementation
-    return "These are the recommended songs based on your input."
-
 songs = []
 song_list_placeholder = st.empty()
 
