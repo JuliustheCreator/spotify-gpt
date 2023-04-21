@@ -36,7 +36,7 @@ songs = []
 TEXT = f'Name 10 obscure artists I am sure to enjoy, as well as a recommended song of theirs if I enjoy listening to: {songs}'
 
 # Adding User's Songs to List
-while not button and len(songs):
+while (not button) and len(songs):
     user_input = st.text_input("Input Song and Artist: ")
     songs.append(user_input)
 
