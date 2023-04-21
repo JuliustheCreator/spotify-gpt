@@ -1,93 +1,84 @@
+# Import required libraries
 import os
+import time
+import spotipy
+from spotipy.oauth2 import SpotifyOAuth
+import streamlit as st
 from dotenv import load_dotenv
 import openai
-import streamlit as st
-import time
-from spotipy.oauth2 import SpotifyOAuth
-import urllib.parse
 
-# Load environment variables from the .env file
+# Load environment variables
 load_dotenv()
 
-# Set the OpenAI API key
-openai.api_key = os.environ["OPENAI_API_KEY"]
+# Spotify API credentials
+client_id = os.getenv('SPOTIFY_CLIENT_ID')
+client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
+redirect_uri = os.getenv('STREAMLIT_APP_URL') + '/callback'
+scope = 'user-top-read playlist-modify-public'
 
-# Setting up Spotify Auth
-client_id = 'your_client_id'
-client_secret = 'your_client_secret'
-redirect_uri = 'https://your_streamlit_app_url/callback'
-scope = 'playlist-modify-public'
+# ChatGPT API key
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
+# Authenticate with Spotify
 auth_manager = SpotifyOAuth(client_id=client_id,
                             client_secret=client_secret,
                             redirect_uri=redirect_uri,
                             scope=scope,
                             show_dialog=True)
 
-# Check if an authorization code is in the URL query parameters
-query_params = st.experimental_get_query_params()
-auth_code = query_params.get('code', [None])[0]
+sp = spotipy.Spotify(auth_manager=auth_manager)
 
-if auth_code:
-    # Get access token using the authorization code
-    auth_manager.get_access_token(auth_code)
-    
-    if auth_manager.get_cached_token():
-        # Proceed with the authenticated actions (e.g., creating playlists)
-        st.write("You are now authenticated.")
-    else:
-        st.warning("Failed to authenticate.")
+# Function to use ChatGPT API
+def request_gpt(prompt):
+    response = openai.Completion.create(
+        model = "text-davinci-002",
+        prompt = prompt,
+        temperature = 0.2,
+        max_tokens = 256,
+        top_p = 1,
+        frequency_penalty = 0,
+        presence_penalty = 0
+    )
+    return response.choices[0].text.strip()
+   
+
+# Streamlit frontend
+st.title("Spotify Music Recommendation")
+st.write("Music recommendation system built with Generative Pre-trained Transformer")
+
+# Check if user is authenticated
+if auth_manager.get_cached_token():
+    # Get user's top artists and songs 
+    top_artists = sp.current_user_top_artists(limit = 5)
+    top_tracks = sp.current_user_top_tracks(limit = 5)
+
+    # Combine artists and songs into a string
+    user_music = ', '.join([artist['name'] for artist in top_artists['items']] + [track['name'] for track in top_tracks['items']])
+
+    # Generate a prompt for ChatGPT
+    prompt = f"Create a playlist of 20 songs based on the user's favorite artists and songs: {user_music}"
+
+    # Get recommendations from ChatGPT
+    recommended_songs = request_gpt(prompt)
+
+    # Get title from ChatGPT
+    title = request_gpt(f'Give me a playlist title for {recommended_songs}')
+
+    # Create a new playlist
+    user_id = sp.current_user()['id']
+    playlist_name = title
+    playlist_description = "A playlist automatically created using the Spotify API and ChatGPT."
+
+    playlist = sp.user_playlist_create(user = user_id, name = playlist_name, description = playlist_description)
+    playlist_id = playlist['id']
+
+    # Add recommended songs to the playlist
+    track_uris = [song['uri'] for song in recommended_songs]
+    sp.playlist_add_items(playlist_id = playlist_id, items = track_uris)
+
+    # Show success message
+    st.write(f"Successfully created a new playlist named '{playlist_name}' based on your favorite artists and songs!")
 else:
     # Redirect the user to the Spotify authorization URL
     auth_url = auth_manager.get_authorize_url()
     st.markdown(f"[Click here to authenticate with Spotify.]({auth_url})")
-    
-# Send a message request and get the response
-def get_response(prompt):
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt,
-        temperature=0.7,
-        max_tokens=256,
-        top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0
-    )
-    return response.choices[0].text.strip()
-
-# C
-st.title("Spotify Music Recommendation")
-st.write("Music recommendation system built with Generative Pre-trained Transformer")
-
-# Backend
-songs = []
-song_list_placeholder = st.empty()
-
-# Adding User's Songs to List
-user_input = st.text_input('', placeholder = "Input Song and Artist")
-
-add_song_button = st.button("Add Song.")
-st.empty()
-submit_button = st.button("Submit Songs.")
-
-if add_song_button and user_input:
-    songs.append(user_input)
-    song_list_placeholder.write(f"Songs & Artist: {', '.join(songs)}")
-    user_input = "" 
-
-# Fetching Response
-if submit_button and len(songs) > 0:
-    TEXT = f'Name 10 obscure artists I am sure to enjoy, as well as a recommended song of theirs if I enjoy listening to: {songs}'
-    response_text = get_response(TEXT)
-
-    # Progress Bar
-    st.write("Fetching recommendations...")
-    bar = st.progress(0)
-    for i in range(100):
-        bar.progress(i + 1)
-        time.sleep(0.01)
-
-    # Print Response
-    st.write(response_text)
-elif submit_button:
-    st.warning("Please add at least one song before submitting.")
