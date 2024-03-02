@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Music Recommendation</title>
+</head>
+<body>
+    <h1>Spotify Music Recommendation</h1>
+    <form method="post">
+        <input type="text" name="song" placeholder="Input Song and Artist:"/>
+        <input type="submit" name="add_song" value="Add Song"/>
+        <input type="submit" name="submit_songs" value="Submit Songs"/>
+    </form>
+    {% if songs %}
+        <p>Current song list: {{ songs|join(', ') }}</p>
+    {% endif %}
+    {% if recommendations %}
+        <p>Recommendations:</p>
+        <p>{{ recommendations }}</p>
+    {% endif %}
+</body>
+</html>
