@@ -1,7 +1,9 @@
 # XAI Music Recommender System
 
 ## Motivation
-This project is an attempt at refining music recommendation systems (MRSs) by leveraging the capabilities of Large Language Models (LLMs), specifically OpenAI's models, and Explainable Artificial Intelligence (XAI). Traditional systems often obscure why certain recommendations are made, leaving users puzzled about their music queues. The project's goal aim is to not only generate personalized recommendations but also provide clear, detailed explanations for each, merging the interpretability of XAI with the depth of understanding provided by LLMs. Furthermore, despite the success of Spotify's algorithms like Discover Weekly and the Playlist Enhance feature, there remains a gap in variability and contextual relevance. This system addresses these shortcomings by enhancing variability through explainable, data-driven insights and improving relevance by incorporating real-time cultural and internet trends.
+This project is an attempt at refining music recommendation systems (MRSs) by leveraging the capabilities of Large Language Models (LLMs), specifically OpenAI's models, and Explainable Artificial Intelligence (XAI). Traditional systems often leave out why certain recommendations are made, leaving users puzzled about their music queues. The project's goal aim is to not only generate more relevant, personalized recommendations but also provide clear, detailed explanations for each, merging the interpretability of XAI with the depth of understanding provided by LLMs. 
+
+Furthermore, despite the success of Spotify's MRSs like Discover Weekly and the Playlist Enhance feature, there remains a gap in variability and contextual relevance. This system addresses these shortcomings by enhancing variability through explainable, data-driven insights and improving relevance by incorporating real-time cultural and internet trends.
 
 
 ## System Design
@@ -20,7 +22,7 @@ This project is an attempt at refining music recommendation systems (MRSs) by le
 
 **Two-Modal Explanation Framework:** Combining the comprehensive, language-based explanations from LLMs with data visualizations that highlight similarities in song and artist features. This dual approach caters to diverse user preferences for understanding their music recommendations, offering both a narrative and visual understanding of the recommendation process.
 
-### Technical Stack Overview
+### Simple Technical Stack Overview
 
 #### Backend
 - **Framework**: Flask
@@ -32,10 +34,8 @@ This project is an attempt at refining music recommendation systems (MRSs) by le
 - **Python Libraries**: Requests, Pandas, BeautifulSoup/Scrapy for API interactions, data manipulation, and web scraping Reddit for trends.
 
 #### AI and Machine Learning
-- **LLMs and Models**: OpenAI's GPT-3 for user input analysis and recommendation generation. RAG for integrating real-time trends from Reddit.
+- **LLMs and Models**: OpenAI's GPT-4 for user input analysis and recommendation generation. RAG for integrating real-time trends from Reddit.
 - **XAI Methods**: Chain of Thought (CoT) prompting for explainable recommendations. Custom scripts for ex post facto explanations and data visualizations.
 
 #### Frontend
-- **Vue.js**
-- **Tailwind CSS**
-- **Data Visualization Tools**: Chart.js
+- **Framework**: Vue.js
