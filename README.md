@@ -29,10 +29,6 @@ Furthermore, despite the success of Spotify's MRSs like Discover Weekly and the 
 - **Task Queue**: Celery with Redis for asynchronous task management
 - **Database**: PostgreSQL
 
-#### Data Processing
-- **Spotify API**: For retrieving music attributes (mood, genre, tempo).
-- **Python Libraries**: Requests, Pandas, BeautifulSoup/Scrapy for API interactions, data manipulation, and web scraping Reddit for trends.
-
 #### AI and Machine Learning
 - **LLMs and Models**: OpenAI's GPT-4 for user input analysis and recommendation generation. RAG for integrating real-time trends from Reddit.
 - **XAI Methods**: Chain of Thought (CoT) prompting for explainable recommendations. Custom scripts for ex post facto explanations and data visualizations.
