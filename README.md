@@ -1,28 +1,37 @@
-# XAI (Explainable) Music Recommendation Engine
+# XAI Music Recommender System
 
-## Project Overview
-The XAI Music Recommender System is designed to provide personalized music recommendations with a focus on explainability. Unlike traditional systems, this project aims to not only match users with songs they'll love but also to provide clear, understandable reasons for each recommendation. Additionally, the system integrates cultural trends and real-time internet searches to deliver a more dynamic music discovery experience.
+## Motivation
+This project is an attempt at refining music recommendation systems (MRSs) by leveraging the capabilities of Large Language Models (LLMs), specifically OpenAI's models, and Explainable Artificial Intelligence (XAI). Traditional systems often leave out why certain recommendations are made, leaving users puzzled about their music queues. The project's goal aim is to not only generate more relevant, personalized recommendations but also provide clear, detailed explanations for each, merging the interpretability of XAI with the depth of understanding provided by LLMs. 
 
-### Motivation
-While Spotify's recommendation algorithms, such as Discover Weekly and the Playlist Enhance feature, work incredibly well, I think they fall short in two key areas:
+Furthermore, despite the success of Spotify's MRSs like Discover Weekly and the Playlist Enhance feature, there remains a gap in variability and contextual relevance. This system addresses these shortcomings by enhancing variability through explainable, data-driven insights and improving relevance by incorporating real-time cultural and internet trends.
 
-- **Variability:** Discover Weekly can sometimes be too varied, lacking in providing a coherent explanation as to why a song is a good match for the listener.
 
-- **Relevance and Context:** Both Discover Weekly and Enhance sometimes miss capturing the mood, tone, and genre nuances of user playlists. They also lack in explaining the cultural relevance or the sudden surge in popularity of a song, which may be important to the user.
+## System Design
+### Data Collection and User Profile Creation
+**Spotify Playlists:** Songs from users' Spotify playlists are categorized using metadata such as genre, mood, and tempo. This categorization feeds into a detailed user profile that reflects their musical tastes and preferences.
 
-### System Pipeline
-**1. User Profile Creation**
-- Input: Users describe their music preferences in natural language or provide access to their Spotify playlists.
-- Process: The system employs OpenAI's GPT to parse and analyze these descriptions, creating a rich user profile that encapsulates favorite genres, artists, moods, and specific listening contexts.
+**Social Media Integration (Reddit):** To capture real-time trends and broader cultural contexts, we'll scrape Reddit discussions related to music. This is achieved using the Retrieval-Augmented Generation (RAG) model, which combines the power of a retriever to fetch relevant data and a generator to synthesize this information.
+### Recommendation Engine
+**OpenAI's LLMs for Personalized Recommendations:** Utilizing models like GPT-4 and GPT-3 for parsing user inputs and generating music recommendations. These models are adept at understanding complex user descriptions and matching them with suitable music choices by analyzing the user profile and current trends.
 
-**2. Real-time Integration**
-- Input: Data on trending music, sourced from social media, news articles, and viral content via the Bing Search API.
-- Process: The system is designed to periodically refresh its understanding of the musical landscape with this data.
-  
-**3. Personalized Recommendation Engine**
-- Process: This core component synthesizes insights from the user's profile with real-time cultural trends, the recommendation engine will be powered through GPT.
-- Output: Users receive a curated list of song recommendations that reflect their stated preferences and the latest music trends.
-  
-**4. Explanation Generation**
-- Process: For each recommendation, the system generates a user-friendly explanation, explaining why a particular song matches the user's profile and the cultural context that might make the song especially relevant or appealing.
-- Output: Each recommendation is accompanied by a detailed explanation, enhancing transparency and user trust in the system.
+**RAG for Trend Integration:** The RAG model plays a crucial role in integrating real-time data from Reddit, ensuring that recommendations are not only personalized but also contextually relevant and culturally aware.
+### Explainable AI (XAI) Approaches
+**Intrinsic Explainability with Chain of Thought (CoT) Prompting:** Leveraging CoT prompting in LLMs to inherently provide explanations about why particular songs or artists are recommended, making the process transparent at the model level.
+
+**Ex Post Facto Explainability for Content-based Recommendations:** Even though LLM-based recommendations naturally lend themselves to explainability through CoT, the content-based aspect of our system — focusing on song features like mood and tempo — requires additional clarity. Here, we'll use a post-hoc explanation approach, where an LLM synthesizes all available data (user preferences, song features, and cultural trends) to articulate clear, logical reasons behind each recommendation.
+
+**Two-Modal Explanation Framework:** Combining the comprehensive, language-based explanations from LLMs with data visualizations that highlight similarities in song and artist features. This dual approach caters to diverse user preferences for understanding their music recommendations, offering both a narrative and visual understanding of the recommendation process.
+
+### Simple Technical Stack Overview
+
+#### Backend
+- **Framework**: Flask
+- **Task Queue**: Celery with Redis for asynchronous task management
+- **Database**: PostgreSQL
+
+#### AI and Machine Learning
+- **LLMs and Models**: OpenAI's GPT-4 for user input analysis and recommendation generation. RAG for integrating real-time trends from Reddit.
+- **XAI Methods**: Chain of Thought (CoT) prompting for explainable recommendations. Custom scripts for ex post facto explanations and data visualizations.
+
+#### Frontend
+- **Framework**: Vue.js
