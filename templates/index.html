@@ -4,48 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Music Recommendation</title>
-    <script>
-        let songs = [];
-
-        function addSong() {
-            const songInput = document.getElementById('song');
-            const song = songInput.value;
-            if (song) {
-                songs.push(song);
-                updateSongsList();
-                songInput.value = ''; 
-            }
-        }
-
-        function updateSongsList() {
-            const songsList = document.getElementById('songsList');
-            songsList.innerText = songs.join(', ');
-        }
-
-        function submitSongs() {
-            document.getElementById('songsField').value = JSON.stringify(songs);
-            document.getElementById('songsForm').submit();
-        }
-    </script>
 </head>
 <body>
-    <h1>Spotify Music Recommendation</h1>
-    <input type="text" id="song" placeholder="Input Song and Artist:"/>
-    <button type="button" onclick="addSong()">Add Song</button>
-    <form method="post" id="songsForm">
-        <input type="hidden" name="songs" id="songsField">
-        <button type="button" onclick="submitSongs()">Submit Songs</button>
-    </form>
-    <p>Current song list: <span id="songsList"></span></p>
-    {% if recommendations %}
-        <h2>Recommendations:</h2>
-        <ul>
-        {% for recommendation in recommendations %}
-            <li>{{ recommendation }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-
+    <h1>Welcome to Spotify Music Recommendation</h1>
+    <p>This service provides personalized music recommendations based on your Spotify listening history.</p>
+    <a href="/login">Log in with Spotify</a>
 </body>
 </html>
-
