@@ -1,5 +1,5 @@
-from spotify.api import fetch_user_top_tracks  # This function needs to be implemented in spotify/api.py
-from utils.openai_utils import generate_music_recommendations  # Assumes this is already implemented
+from spotify.api import fetch_user_top_tracks  
+from utils.openai_utils import generate_music_recommendations, explain_music_recommendations  
 from flask import session
 
 
@@ -28,5 +28,6 @@ def get_personalized_recommendations():
     recommendations = "\n".join(recommendations)
     explanations = "\n".join(explanations)
 
-    return recommendations, explanations
+    explanations = explain_music_recommendations(songs, recommendations, explanations)
 
+    return recommendations, explanations
