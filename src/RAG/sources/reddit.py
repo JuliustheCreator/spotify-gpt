@@ -37,35 +37,3 @@ def fetch_posts(subreddit_names, reddit_instance, posts_per_sub = 50):
             posts.append(post_data)
         post_container[subreddit_name] = posts
     return post_container
-
-def save_posts(posts):
-    for subreddit, posts in posts.items():
-        data_string = "\n\n".join([f"Title: {post['title']}\nURL: {post['url']}\nContent: {post['selftext']}" for post in posts])
-        
-        processed_data = convert_data_to_knowledge(data_string)
-        
-        file_name = f"data/{subreddit}_processed.txt"
-        
-        try:
-            with open(file_name, 'w', encoding='utf-8') as f:
-                f.write(processed_data)
-        except Exception as e:
-            print(f"An error occurred while saving processed posts for {subreddit}: {e}")
-
-if __name__ == "__main__":
-    reddit = setup_praw()
-    subreddits = [
-        'jazz', 
-        'hiphopheads', 
-        'listentothis', 
-        'indieheads', 
-        'letstalkmusic', 
-        'popheads', 
-        'rnb', 
-        'postrock', 
-        'electronicmusic'
-    ]
-
-    posts = fetch_posts(subreddits, reddit)
-    
-    save_posts(posts)
