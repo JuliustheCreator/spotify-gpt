@@ -11,6 +11,7 @@ Functions:
     convert_data_to_knowledge: Convert data to knowledge using the OpenAI API.
 """
 
+from dotenv import load_dotenv
 import openai
 import os
 import time
@@ -20,6 +21,7 @@ import json
 ## OpenAI Utils ##
 ##################
 
+load_dotenv()
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 MRS_assistant_id = os.environ.get("MRS_ASSISTANT_ID")
@@ -187,7 +189,12 @@ def process_chunk(chunk, thread_id):
             )
             time.sleep(0.5)
         
-        return run.result
+        messages = client.beta.threads.messages.list(thread_id=thread_id)
+
+        response = messages.data[0].content[0].text.value
+        print(response)
+        
+        return response
     
     except Exception as e:
         print(f"Error processing chunk: {e}")
@@ -223,5 +230,8 @@ def convert_data_to_knowledge(data):
     except Exception as e:
         print(f"Error deleting thread: {e}")
 
+    if not results: return ""
+
     combined_result = ' '.join(results)
     return combined_result
+
