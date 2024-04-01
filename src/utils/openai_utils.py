@@ -52,7 +52,7 @@ def generate_music_recommendations(songs: list):
         message = client.beta.threads.messages.create(
             thread_id = thread.id,
             role = "user",
-            content = f"Based on these artists: {', '.join(songs)}, recommend 7 new and unique songs I'll enjoy",
+            content = f"Based on these songs: {', '.join(songs)}, recommend 7 new and unique songs I'll enjoy",
         )
 
         run = client.beta.threads.runs.create(
@@ -69,17 +69,35 @@ def generate_music_recommendations(songs: list):
         
         messages = client.beta.threads.messages.list(thread_id=thread.id)
 
+        print(f"Messages: {messages}")
+
         response = messages.data[0].content[0].text.value
+
         response = json.loads(response)
+
 
         recommendations = [{'song': item['song'], 'artist': item['artist']} for item in response['recommendations']]
         explanations = [item['reason'] for item in response['recommendations']]
 
+        # print(recommendations, explanations)
+
+        try:
+            client.beta.threads.delete(thread.id)
+        except Exception as e:
+            print(f"Error deleting thread: {e}")
+
         return recommendations, explanations
     
     except Exception as e:
+        try:
+            client.beta.threads.delete(thread.id)
+        except Exception as e:
+            print(f"Error deleting thread: {e}")
+        
         print(f"Error generating recommendations: {e}")
-        return ["Error generating recommendations."]
+        return [], []
+    
+
 
 
 def explain_music_recommendations(songs: list, recommendations: list, explanations: list, thread):
@@ -235,3 +253,21 @@ def convert_data_to_knowledge(data):
     combined_result = ' '.join(results)
     return combined_result
 
+
+songs = [
+    "Come To Atlanta",
+    "Freaking Out The Neighborhood",
+    "The Less I Know The Better",
+    "Seven",
+    "Disciples",
+    "Cigarettes Out The Window",
+    "Not Allowed",
+    "Heart to Heart",
+    "Bags",
+    "Amoeba",
+    "4Ever",
+    "Kingston",
+    "Glue Song"
+]
+
+generate_music_recommendations(songs)

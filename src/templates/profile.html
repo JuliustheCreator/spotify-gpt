@@ -1,1 +1,25 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - Music Recommendations</title>
+</head>
+<body>
+    <h1>Your Personalized Music Recommendations</h1>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% else %}
+        <h2>Recommendations</h2>
+        <ul>
+            {% for recommendation in recommendations %}
+                <li>{{ recommendation }}</li>
+            {% endfor %}
+        </ul>
+        <h2>Why You Might Like These</h2>
+        <ul>
+            {% for explanation in explanations %}
+                <li>{{ explanation }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
