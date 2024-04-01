@@ -9,7 +9,6 @@ Functions:
     process_and_save_posts: Process and save the fetched posts.
 """
 
-from utils.openai_utils import convert_data_to_knowledge
 import praw
 import os
 
