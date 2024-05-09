@@ -7,4 +7,4 @@ Furthermore, despite the success of Spotify's MRSs like Discover Weekly and the 
 
 
 ## System Design
-![System Design](assets/XMRS System Design.png)
+![System Design](assets/XMRS-System-Design.png)
