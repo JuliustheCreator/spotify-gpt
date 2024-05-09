@@ -1,4 +1,6 @@
-streamlit
-openai
+Flask
 python-dotenv
-spotipy
+langchain-community
+langchain-core
+langchain  
+Jinja2
