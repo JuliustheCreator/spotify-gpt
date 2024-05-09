@@ -33,4 +33,3 @@ def fetch_user_top_tracks(access_token, time_range='short_term', limit=20):
     else:
         print(f"Failed to fetch top tracks: {response.status_code}")
         return []
-

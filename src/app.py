@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 from spotify.auth import login, callback
-from recommendation_engine.recommender import get_personalized_recommendations
+from recommendation_engine.recommender import get_recommendations
 
 ##################
 ## Flask Routes ##
@@ -29,11 +29,13 @@ def callback_route():
 
 @app.route('/home')
 def home():
-    recommendations, explanations = get_personalized_recommendations()
+    recommendations = get_recommendations()
+
+    print(recommendations)
     
     if recommendations is None: return render_template('profile.html', error="Access token is not available. Please log in.")
 
-    return render_template('profile.html', recommendations=recommendations, explanations=explanations, error=None)
+    return render_template('profile.html', recommendations=recommendations, explanations="", error=None)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)

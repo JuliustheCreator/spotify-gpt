@@ -26,8 +26,8 @@ class XRecommendations(BaseModel):
                                                   description="List of songs with artists and reasons.")
 
 class LLM():
-    def __init__(self, model = "llama2"):
-        self.llm = Ollama(model)
+    def __init__(self, model_type = "llama3"):
+        self.llm = Ollama(model = model_type)
 
         # This uses the StrOutputParser to convert the output to a string.
         self.output_parser = StrOutputParser()
@@ -40,7 +40,7 @@ class LLM():
         return f"LLM(model={self.llm.model})"
     
     def __call__(self, prompt) -> str:
-        return self.__query(prompt)
+        return self._query(prompt)
 
     def _set_system_prompt(self, system_prompt):
         """
@@ -77,7 +77,7 @@ class RecommendationLLM(LLM):
         with open("src/utils/prompts/recommendation_prompt.txt", "r") as f:
             system_prompt = f.read() 
         
-        self.__set_system_prompt(system_prompt)
+        self._set_system_prompt(system_prompt)
 
 
 class ExplanationLLM(LLM):
@@ -87,7 +87,93 @@ class ExplanationLLM(LLM):
         # This uses the PydanticOutputParser to convert the output to an XRcommendations object.
         self._set_output_parser(PydanticOutputParser(pydantic_object = XRecommendations))
         
-        with open("src\utils\prompts\explanation_prompt.txt", "r") as f:
+        with open("src/utils/prompts/explanation_prompt.txt", "r") as f:
             system_prompt = f.read() 
 
         self._set_system_prompt(system_prompt)
+
+
+recommenderLLM = RecommendationLLM()
+
+print(recommenderLLM("""
+This track is new in your ranking	1				
+Go (Xtayalive 2)
+Kanii, 9lives
+Open this track on Spotify
+This track is new in your ranking	2				
+MILLION DOLLAR BABY (VHS)
+Tommy Richman
+Open this track on Spotify
+This track is new in your ranking	3				
+MiNt cHoCoLaTe (feat. Conway the Machine)
+1999 WRITE THE FUTURE, BADBADNOTGOOD, Westside Gunn, Conway the Machine
+Open this track on Spotify
+This track is new in your ranking	4				
+Sparks
+Coldplay
+Open this track on Spotify
+This track is new in your ranking	5				
+Sir Duke
+Stevie Wonder
+Open this track on Spotify
+This track is new in your ranking	6				
+IGOR'S THEME
+Tyler, The Creator
+Open this track on Spotify
+This track is new in your ranking	7				
+I Just Threw Out The Love Of My Dreams
+Weezer
+Open this track on Spotify
+This track is new in your ranking	8				
+Les Fleurs
+Minnie Riperton
+Open this track on Spotify
+This track is new in your ranking	9				
+Smells Like Teen Spirit
+Nirvana
+Open this track on Spotify
+This track is new in your ranking	10				
+Black Roses
+Trey Songz
+Open this track on Spotify
+This track is new in your ranking	11				
+euphoria
+Kendrick Lamar
+Open this track on Spotify
+This track is new in your ranking	12				
+Kerosene!
+Yves Tumor
+Open this track on Spotify
+This track is new in your ranking	13				
+MASSA
+Tyler, The Creator
+Open this track on Spotify
+This track is new in your ranking	14				
+the way things go
+beabadoobee
+Open this track on Spotify
+This track is new in your ranking	15				
+MILLION DOLLAR BABY
+Tommy Richman
+Open this track on Spotify
+This track is new in your ranking	16				
+Get It Sexyy
+Sexyy Red
+Open this track on Spotify
+This track is new in your ranking	17				
+Dead or Alive
+Lil Tecca
+Open this track on Spotify
+This track is new in your ranking	18				
+Master of None
+Beach House
+Open this track on Spotify
+This track is new in your ranking	19				
+If We Being Rëal
+Yeat
+Open this track on Spotify
+This track is new in your ranking	20				
+In Bloom
+Nirvana
+Open this track on Spotify
+"""))
