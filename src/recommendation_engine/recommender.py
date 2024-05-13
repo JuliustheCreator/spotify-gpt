@@ -44,15 +44,9 @@ def get_recommendations():
         recommendationLLM = RecommendationLLM()
         explanationLLM = ExplanationLLM()
 
-        recommendations = recommendationLLM(songs)
-        print(recommendations)
-
-        recommendations = explanationLLM(recommendations)
-        print(recommendations)
-
-        # recommendations = explanationLLM(
-        #     recommendationLLM(songs)
-        #     )
+        recommendations = explanationLLM(
+            recommendationLLM(songs)
+            )
     
     except Exception as e:
         return None, f"Error processing recommendations: {str(e)}"

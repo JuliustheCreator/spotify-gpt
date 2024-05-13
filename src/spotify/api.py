@@ -9,7 +9,7 @@ import requests
 def get_spotify_access_token(session):
     return session.get('access_token')
 
-def fetch_user_top_tracks(access_token, time_range='short_term', limit=20):
+def fetch_user_top_tracks(access_token, time_range = 'short_term', limit = 5):
     headers = {
         'Authorization': f'Bearer {access_token}',
         'Content-Type': 'application/json'
@@ -33,3 +33,9 @@ def fetch_user_top_tracks(access_token, time_range='short_term', limit=20):
     else:
         print(f"Failed to fetch top tracks: {response.status_code}")
         return []
+    
+def fetch_top_artists(kwargs):
+    pass
+
+def fetch_track_recommendations(kwargs):
+    pass
