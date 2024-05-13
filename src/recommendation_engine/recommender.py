@@ -8,7 +8,7 @@ Functions:
     get_recommendations: Fetch the user's top tracks, generate recommendations, and fetch explanations.
 """
 
-from spotify.api import fetch_user_top_tracks
+from spotify.api import fetch_user_top_tracks, fetch_track_recommendations, fetch_top_artists
 from utils.langchain_utils import RecommendationLLM, ExplanationLLM  
 from flask import session
 
@@ -33,12 +33,14 @@ def get_recommendations():
         return None, "Access token is not available. Please log in."
 
     access_token = session['access_token']
+
     top_tracks = fetch_user_top_tracks(access_token)
+    top_artists = fetch_top_artists(access_token)
+    songs = fetch_track_recommendations(access_token, top_tracks)
 
-    if not top_tracks:
+
+    if not songs:
         return None, "Failed to fetch top tracks from Spotify."
-
-    songs = str([f"{track['name']} by {track['artist']}" for track in top_tracks])
 
     try:
         recommendationLLM = RecommendationLLM()
