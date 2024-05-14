@@ -34,20 +34,24 @@ def get_recommendations():
 
     access_token = session['access_token']
 
-    top_tracks = fetch_user_top_tracks(access_token)
-    top_artists = fetch_top_artists(access_token)
-    songs = fetch_track_recommendations(access_token, top_tracks)
+    top_tracks = fetch_user_top_tracks(access_token, limit = 20, time_range = 'long_term')
+    top_artists = fetch_top_artists(access_token, limit = 20, time_range = 'long_term')
+    candidates = fetch_track_recommendations(access_token, fetch_user_top_tracks(access_token), fetch_top_artists(access_token))
 
+    # print("Top Tracks: ", top_tracks)
+    # print("Top Artists: ", top_artists)
+    # print("Songs: ", candidates)
 
-    if not songs:
-        return None, "Failed to fetch top tracks from Spotify."
+    if not top_tracks: return None, "Failed to fetch top tracks from Spotify."
+    if not top_artists: return None, "Failed to fetch top artists from Spotify."
+    if not candidates: return None, "Failed to fetch recommendations from Spotify."
 
     try:
         recommendationLLM = RecommendationLLM()
         explanationLLM = ExplanationLLM()
 
         recommendations = explanationLLM(
-            recommendationLLM(songs)
+            recommendationLLM(top_tracks, top_artists, candidates)
             )
     
     except Exception as e:

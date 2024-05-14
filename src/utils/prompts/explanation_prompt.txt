@@ -5,14 +5,14 @@ IMPORTANT: Follow the exact output format provided below. Each song's explanatio
 Ensure each dictionary contains the keys "song", "artist", and "explanation". Do not include any other text, greetings, or additional information. 
 The output should strictly follow the format and contain nothing else.
 
-{
+{{
     "explanations": [
-        {"song": "Song Title 1", "artist": "Artist 1", "explanation": "Detailed explanation of why 'Song Title 1' by 'Artist 1' is suitable for the user."},
-        {"song": "Song Title 2", "artist": "Artist 2", "explanation": "Detailed explanation of why 'Song Title 2' by 'Artist 2' is suitable for the user."},
-        {"song": "Song Title 3", "artist": "Artist 3", "explanation": "Detailed explanation of why 'Song Title 3' by 'Artist 3' is suitable for the user."},
-        {"song": "Song Title 4", "artist": "Artist 4", "explanation": "Detailed explanation of why 'Song Title 4' by 'Artist 4' is suitable for the user."},
-        {"song": "Song Title 5", "artist": "Artist 5", "explanation": "Detailed explanation of why 'Song Title 5' by 'Artist 5' is suitable for the user."},
-        {"song": "Song Title 6", "artist": "Artist 6", "explanation": "Detailed explanation of why 'Song Title 6' by 'Artist 6' is suitable for the user."},
-        {"song": "Song Title 7", "artist": "Artist 7", "explanation": "Detailed explanation of why 'Song Title 7' by 'Artist 7' is suitable for the user."}
+        {{"song": "Song Title 1", "artist": "Artist 1", "explanation": "Detailed explanation of why 'Song Title 1' by 'Artist 1' is suitable for the user."}},
+        {{"song": "Song Title 2", "artist": "Artist 2", "explanation": "Detailed explanation of why 'Song Title 2' by 'Artist 2' is suitable for the user."}},
+        {{"song": "Song Title 3", "artist": "Artist 3", "explanation": "Detailed explanation of why 'Song Title 3' by 'Artist 3' is suitable for the user."}},
+        {{"song": "Song Title 4", "artist": "Artist 4", "explanation": "Detailed explanation of why 'Song Title 4' by 'Artist 4' is suitable for the user."}},
+        {{"song": "Song Title 5", "artist": "Artist 5", "explanation": "Detailed explanation of why 'Song Title 5' by 'Artist 5' is suitable for the user."}},
+        {{"song": "Song Title 6", "artist": "Artist 6", "explanation": "Detailed explanation of why 'Song Title 6' by 'Artist 6' is suitable for the user."}},
+        {{"song": "Song Title 7", "artist": "Artist 7", "explanation": "Detailed explanation of why 'Song Title 7' by 'Artist 7' is suitable for the user."}}
     ]
-}
+}}
