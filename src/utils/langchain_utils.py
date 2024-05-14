@@ -163,7 +163,16 @@ class RecommendationLLM(LLM):
             "Candidate Pool": [{'name': song['name'], 'artist': song['artist']} for song in candidate_pool]
         }
 
-        return self._query(str(data))
+        prompt = (
+            f"User Preferences:\n"
+            f"Top Tracks: {data['Top Tracks']}\n"
+            f"Top Artists: {data['Top Artists']}\n"
+            f"Candidate Pool: {data['Candidate Pool']}\n"
+            f"Based on the provided information, please recommend 7 songs from the candidate pool, ensuring a balance of variety and alignment with the user's preferences. "
+            f"Explain your selection process step-by-step."
+        )
+
+        return self._query(prompt)
 
 class ExplanationLLM(LLM):
     def __init__(self, model: str = "llama3", debug: bool = True):
